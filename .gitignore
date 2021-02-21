@@ -28,3 +28,6 @@ benchmarks/graphs
 
 # env
 .env
+
+# configs
+configs
