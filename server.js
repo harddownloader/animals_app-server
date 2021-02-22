@@ -1,6 +1,10 @@
 const path = require('path')
 require('dotenv').config()
 const express = require("express")
+// auth
+var cookieParser = require('cookie-parser');
+var session = require('express-session')
+// routes
 const serverRoutes = require('./routes')
 // firebase
 var admin = require('firebase-admin')
@@ -25,6 +29,25 @@ defaultDatabase = admin.database()
 
 // express
 const app = express()
+
+app.use(cookieParser());
+app.use(session({
+  secret: "Shh, its a secret!",
+//   store: sessionStore, // connect-mongo session store
+  proxy: true,
+  resave: true,
+  saveUninitialized: true
+}));
+
+app.get('/', function(req, res){
+   if(req.session.page_views){
+      req.session.page_views++;
+      res.send("You visited this page " + req.session.page_views + " times");
+   } else {
+      req.session.page_views = 1;
+      res.send("Welcome to this page for the first time!");
+   }
+});
 
 // set static folder
 app.use(express.static(path.resolve(__dirname, "static")))
