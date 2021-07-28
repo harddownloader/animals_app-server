@@ -8,21 +8,44 @@ const Owner = require('../models/owner');
 router.post('/api/server/get-all', controllers.getAll)
 router.post('/api/server/get-first', controllers.getFirst)
 
-
+// get all
 router.get('/owners', (req,res, next) => {
-  res.status(200).json({
-    message: 'Heading GET requests to /owners'
-  });
+  Owner.find()
+    .exec()
+    .then(docs => {
+      console.log(docs);
+      res.status(200).json(docs)
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
 });
 
-router.post('/owners/add', (req, res, next) => {
-  // const owner = {
-  //   name: req.body.name,
-  //   phones: req.body.phones
-  // }
+// get by id
+router.get('/owners/:ownerId', (req, res, next) => {
+  const id = req.params.ownerId;
+  Owner.findById(id)
+    .exec()
+    .then(doc => {
+      console.log('From database', doc);
+      if (doc) {
+        res.status(200).json(doc)
+      } else {
+        res.status(404).json({message: 'No valid entry found for provided ID'});
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({error: err})
+    })
+})
+
+// add owner
+router.post('/owners', (req, res, next) => {
   console.log('req.body', req.body)
-  // res.json(req.body)
-  // res.send('hello world', req.body.name)
   const owner = new Owner({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
@@ -44,6 +67,93 @@ router.post('/owners/add', (req, res, next) => {
     message: 'Heading POST to /owners',
     createdOwner: owner
   })
+})
+
+/**
+ * update owner
+ * Позволяет обновить только те поля , что мы укажем
+ * 
+ * пример запроса(на обновления всех полей):
+ * [
+    {
+        "propName": "name",
+        "value": "annaUpdated"
+    },
+    {
+        "propName": "adress",
+        "value": "adresss2Updated"
+    },
+    {
+        "propName": "phones",
+        "value": [
+            "Updated"
+        ]
+    },
+    {
+        "propName": "photoOwnerImage",
+        "value": "url1Updated"
+    },
+    {
+        "propName": "photoPasportImage",
+        "value": "url2Updated"
+    },
+    {
+        "propName": "car",
+        "value": "volgaUpdated"
+    },
+    {
+        "propName": "history",
+        "value": "hostiriUpdated"
+    },
+    {
+        "propName": "whoGave",
+        "value": "vityaUpdated"
+    },
+    {
+        "propName": "ktoDalTel",
+        "value": "vasyaUpdated"
+    },
+    {
+        "propName": "jivoder",
+        "value": true
+    }
+]
+ */
+router.patch("/owners/:ownerId", (req, res, next) => {
+  const id = req.params.ownerId;
+  const updateOps = {};
+  for (const ops of req.body) {
+    updateOps[ops.propName] = ops.value
+  }
+  Owner.update({ _id: id }, {
+    $set: updateOps
+  })
+  .exec()
+  .then(result => {
+    res.status(200).json(result);
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({
+      error: err
+    })
+  })
+})
+
+// delete owner
+router.delete("/owners/:ownerId", (req, res, next) => {
+  const id = req.params.ownerId;
+  Owner.remove({ _id: id })
+    .exec()
+    .then(result => {
+      res.status(200).json(result)
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      })
+    })
 })
 
 module.exports = router
