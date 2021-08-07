@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const controllers = require('../controllers/servers')
 const router = express.Router()
 const Owner = require('../models/owner');
+const User = require('../models/user');
 
 // routes
 router.post('/api/server/get-all', controllers.getAll)
@@ -154,6 +155,25 @@ router.delete("/owners/:ownerId", (req, res, next) => {
         error: err
       })
     })
+})
+
+
+
+
+// USERS
+router.get("/users", (req, res, next) => {
+  User.find()
+  .exec()
+  .then(docs => {
+    console.log(docs);
+    res.status(200).json(docs)
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({
+      error: err
+    });
+  });
 })
 
 module.exports = router
