@@ -9,7 +9,7 @@ const User = require('../models/user');
 router.post('/api/server/get-all', controllers.getAll)
 router.post('/api/server/get-first', controllers.getFirst)
 
-// get all
+// get all owners
 router.get('/owners', (req,res, next) => {
   Owner.find()
     .exec()
@@ -120,6 +120,7 @@ router.post('/owners', (req, res, next) => {
     }
 ]
  */
+// update owner fields
 router.patch("/owners/:ownerId", (req, res, next) => {
   const id = req.params.ownerId;
   const updateOps = {};
@@ -161,6 +162,7 @@ router.delete("/owners/:ownerId", (req, res, next) => {
 
 
 // USERS
+// get all users
 router.get("/users", (req, res, next) => {
   User.find()
   .exec()
@@ -174,6 +176,25 @@ router.get("/users", (req, res, next) => {
       error: err
     });
   });
+})
+
+// get user by id
+router.get("/users/:userId", (req, res, next) => {
+  const id = req.params.userId;
+  User.findById(id)
+    .exec()
+    .then(doc => {
+      console.log('From database', doc);
+      if (doc) {
+        res.status(200).json(doc)
+      } else {
+        res.status(404).json({message: 'No valid entry found for provided ID'});
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({error: err})
+    })
 })
 
 module.exports = router
