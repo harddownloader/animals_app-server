@@ -17,7 +17,7 @@ const schema = buildSchema(`
     adress: String
     photoOwnerImage: String
     photoPasportImage: String
-    phones: [String]!
+    phones: [String]
     car: String
     history: String
     whoGave: String,
@@ -31,7 +31,7 @@ const schema = buildSchema(`
     adress: String
     photoOwnerImage: String
     photoPasportImage: String
-    phones: [String]!
+    phones: [String]
     car: String
     history: String
     whoGave: String,
@@ -66,19 +66,28 @@ const schema = buildSchema(`
     getAllOwners: [Owner]
     getOwner(id: ID): Owner
 
+    upOwnersByBackup: String
     currentNumber: Int
+
+    addOwnerEvent: Owner
+    createOwnerQuery: Owner
   }
 
   type Mutation {
-    createOwner(input: OwnerInput): Owner
-    updateOwner(input: OwnerUpdateInput): Owner
-    deleteOwner(id: ID): Owner
+    createOwner(input: OwnerInput!): Owner
+    updateOwner(input: OwnerUpdateInput!): Owner
+    deleteOwner(id: String!): Owner
+
+    
   }
 
 
   
   type Subscription {
     numberIncremented: Int
+    
+    postCreated: Owner
+    newOwnersList: [Owner]
   }
 
 `);

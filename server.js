@@ -2,16 +2,13 @@
 const { createServer } = require("http");
 const express = require("express");
 const { execute, subscribe } = require("graphql");
-const { ApolloServer, gql } = require("apollo-server-express");
-const { PubSub } = require("graphql-subscriptions");
+const { ApolloServer } = require("apollo-server-express");
 const { SubscriptionServer } = require("subscriptions-transport-ws");
 const { makeExecutableSchema } = require("@graphql-tools/schema");
 const typeDefs = require("./graphql/schema.js");
 const resolvers = require("./graphql/resolvers.js");
 require("dotenv").config();
 const mongoose = require("mongoose");
-
-const User = require("./models/user");
 
 // mongoose
 mongoose
@@ -24,34 +21,8 @@ mongoose
 
 (async () => {
   const PORT = 3033;
-  const pubsub = new PubSub();
   const app = express();
   const httpServer = createServer(app);
-
-  // Schema definition
-  // const typeDefs = gql`
-  //   type Query {
-  //     currentNumber: Int
-  //   }
-
-  //   type Subscription {
-  //     numberIncremented: Int
-  //   }
-  // `;
-
-  // Resolver map
-  // const resolvers = {
-  //   // Query: {
-  //   //   currentNumber() {
-  //   //     return currentNumber;
-  //   //   },
-  //   // },
-  //   Subscription: {
-  //     numberIncremented: {
-  //       subscribe: () => pubsub.asyncIterator(["NUMBER_INCREMENTED"]),
-  //     },
-  //   },
-  // };
 
   app.get("/rest", function (req, res) {
     return res.json({ data: "rest" });

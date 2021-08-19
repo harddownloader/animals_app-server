@@ -1,13 +1,13 @@
 const express = require('express')
 const mongoose = require("mongoose");
-const controllers = require('../controllers/servers')
+// const controllers = require('../controllers/servers')
 const router = express.Router()
 const Owner = require('../models/owner');
 const User = require('../models/user');
 
 // routes
-router.post('/api/server/get-all', controllers.getAll)
-router.post('/api/server/get-first', controllers.getFirst)
+// router.post('/api/server/get-all', controllers.getAll)
+// router.post('/api/server/get-first', controllers.getFirst)
 
 // get all owners
 router.get('/owners', (req,res, next) => {
