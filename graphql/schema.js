@@ -1,14 +1,5 @@
 const { buildSchema } = require("graphql");
 
-// phones: Array
-/**
- * type User {
-    id: ID
-    fio: String
-    email: String
-    idAddedOwnersHim: [Owner]
-  }
- */
 const schema = buildSchema(`
   
   type Owner {
@@ -67,10 +58,6 @@ const schema = buildSchema(`
     getOwner(id: ID): Owner
 
     upOwnersByBackup: String
-    currentNumber: Int
-
-    addOwnerEvent: Owner
-    createOwnerQuery: Owner
   }
 
   type Mutation {
@@ -78,21 +65,13 @@ const schema = buildSchema(`
     updateOwner(input: OwnerUpdateInput!): Owner
     deleteOwner(id: String!): Owner
 
-    
+    addOwnerIdToUser(ownerId: String!, userId: String!): User
   }
 
-
-  
   type Subscription {
-    numberIncremented: Int
-    
-    postCreated: Owner
     newOwnersList: [Owner]
   }
 
 `);
 
 module.exports = schema;
-// export schema
-
-

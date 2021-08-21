@@ -1,17 +1,13 @@
-// src/resolvers.js
 const { PubSub, withFilter } = require("graphql-subscriptions");
 const Owner = require("../models/owner");
 const User = require("../models/user");
 const mongoose = require("mongoose");
 const ownersFromBackup = require("../ownersBackUp.json");
 
-const pubsub = new PubSub(); //create a PubSub instance
-// const CHANNEL_ADDED_TOPIC = "newChannel";
+const pubsub = new PubSub();
+
 const resolvers = {
   Query: {
-    currentNumber() {
-      return currentNumber;
-    },
     // upload owners from backup file
     upOwnersByBackup() {
       for (let i = 0; i < ownersFromBackup.length; i++) {
@@ -42,60 +38,7 @@ const resolvers = {
           });
       }
 
-      return "loading owners from backup complete!"
-    },
-    async createOwnerQuery() {
-      const newUser = {
-        id: 'idshnik',
-        name: 'idshnik',
-        adress: 'idshnik',
-        photoOwnerImage: '',
-        photoPasportImage: '',
-        phones: [],
-        car: 'car',
-        history: 'history',
-        whoGave: 'whoGave',
-        ktoDalTel: 'ktoDalTel',
-        jivoder: false
-      }
-      const allOwners = await this.getAllOwners()
-      const newOwnersList = allOwners.concat(newUser)
-      await pubsub.publish('OWNERS_UPDATED', {
-        newOwnersList
-      });
-      
-      return newUser
-      
-    },
-    addOwnerEvent() {
-      // const payload = {
-      //   commentAdded: {
-      //     id: 'addedID', 
-      //     name: 'new name' ,
-      //     adress: 'adress',
-      //     photoOwnerImage: '',
-      //     photoPasportImage: '',
-      //     phones: [],
-      //     car: 'car',
-      //     history: 'history',
-      //     whoGave: 'whoGave',
-      //     ktoDalTel: 'ktoDalTel',
-      //     jivoder: false
-      //   }
-      // }
-      // pubsub.publish("commentAdded", payload);
-
-      pubsub.publish('POST_CREATED', {
-        postCreated: {
-          name: 'Ali Baba',
-          adress: 'Open sesame'
-        }
-      });
-      
-      return {
-        name: 'Ali Baba',
-        adress: 'Open sesame'
-      }
+      return "loading owners from backup complete!";
     },
     // USERS
     // get all users
@@ -137,7 +80,7 @@ const resolvers = {
         .exec()
         .then((docs) => {
           // console.log("getAllOwners", docs);
-          console.log("getAllOwners is ok!")
+          console.log("getAllOwners is ok!");
           return docs;
         })
         .catch((err) => {
@@ -164,9 +107,9 @@ const resolvers = {
     },
   },
   Mutation: {
-    
+    // OWNERS
     // add owner
-    createOwner: (parent, {input}) => {
+    createOwner: (parent, { input }) => {
       // console.log('createOwner', input)
       const owner = new Owner({
         _id: new mongoose.Types.ObjectId(),
@@ -184,14 +127,14 @@ const resolvers = {
 
       return owner
         .save()
-        .then( async(result) => {
+        .then(async (result) => {
           console.log("result = ", result);
           console.log(result._id);
 
           // берем новый список владельцев
-          const allOwners = await resolvers.Query.getAllOwners()
-          await pubsub.publish('OWNERS_UPDATED', {
-            newOwnersList: allOwners
+          const allOwners = await resolvers.Query.getAllOwners();
+          await pubsub.publish("OWNERS_UPDATED", {
+            newOwnersList: allOwners,
           });
 
           return result;
@@ -219,14 +162,13 @@ const resolvers = {
         }
       )
         .exec()
-        .then( async(doc) => {
+        .then(async (doc) => {
           console.log("From database", doc);
           if (doc) {
-
             // берем новый список владельцев
-            const allOwners = await resolvers.Query.getAllOwners()
-            await pubsub.publish('OWNERS_UPDATED', {
-              newOwnersList: allOwners
+            const allOwners = await resolvers.Query.getAllOwners();
+            await pubsub.publish("OWNERS_UPDATED", {
+              newOwnersList: allOwners,
             });
 
             return doc;
@@ -243,14 +185,13 @@ const resolvers = {
     deleteOwner: (parent, { id }) => {
       return Owner.deleteOne({ _id: id })
         .exec()
-        .then( async(doc) => {
+        .then(async (doc) => {
           console.log("From database", doc);
           if (doc) {
-
             // берем новый список владельцев
-            const allOwners = await resolvers.Query.getAllOwners()
-            await pubsub.publish('OWNERS_UPDATED', {
-              newOwnersList: allOwners
+            const allOwners = await resolvers.Query.getAllOwners();
+            await pubsub.publish("OWNERS_UPDATED", {
+              newOwnersList: allOwners,
             });
 
             return doc;
@@ -263,33 +204,44 @@ const resolvers = {
           return { error: err };
         });
     },
+
+    // USERS
+    // add ownerId to user
+    addOwnerIdToUser: async (parent, { ownerId, userId }) => {
+      const user = await resolvers.Query.getUser(userId);
+      if (user.hasOwnProperty("error")) {
+        return { error: "Something is wrong" };
+      } else if (user.hasOwnProperty("message")) {
+        return { message: "No valid entry found for provided ID" };
+      }
+      user.idAddedOwnersHim.push(ownerId);
+      return User.updateOne(
+        { _id: userId },
+        {
+          $set: user,
+        }
+      )
+        .exec()
+        .then(async (doc) => {
+          console.log("From database", doc);
+          if (doc) {
+            return doc;
+          } else {
+            return { message: "No valid entry found for provided ID" };
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          return { error: err };
+        });
+    },
   },
   Subscription: {
-    numberIncremented: {
-      subscribe: () => pubsub.asyncIterator(["NUMBER_INCREMENTED"]),
-    },
-    postCreated: {
-      subscribe: () => {
-        console.log('commentAdded before');
-        return pubsub.asyncIterator(["POST_CREATED"])
-      },
-    //   subscribe: withFilter(() => pubsub.asyncIterator('commentAdded'), (payload, variables) => {
-    //     return payload.commentAdded.repository_name === variables.repoFullName;
-    //  }),
-    },
+    // сокеты для отправки нового списка владельцев
     newOwnersList: {
-      subscribe: () => pubsub.asyncIterator(["OWNERS_UPDATED"])
-    }
+      subscribe: () => pubsub.asyncIterator(["OWNERS_UPDATED"]),
+    },
   },
 };
 
-let currentNumber = 0;
-  function incrementNumber() {
-    currentNumber++;
-    pubsub.publish("NUMBER_INCREMENTED", { numberIncremented: currentNumber });
-    setTimeout(incrementNumber, 1000);
-  }
-  // Start incrementing
-  incrementNumber();
-
-module.exports = resolvers
+module.exports = resolvers;
