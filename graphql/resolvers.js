@@ -11,6 +11,8 @@ const resolvers = {
   Query: {
     // upload owners from backup file
     upOwnersByBackup() {
+      const currentDate = getCurrentDate();
+
       for (let i = 0; i < ownersFromBackup.length; i++) {
         const item = ownersFromBackup[i];
         // if(i > 0) return 'first return'
@@ -19,13 +21,15 @@ const resolvers = {
           name: item.name,
           adress: item.adress,
           phones: item.phone,
-          pasportPhoto: item.pasportPhoto,
-          photo: item.photo,
+          photoOwnerImage: item.photo,
+          photoPasportImage: item.pasportPhoto,
           car: item.car,
           history: item.history,
           whoGave: item.whoGave,
           ktoDalTel: item.ktoDalTel,
-          jivoder: item.jivoder,
+          jivoder: item.warn,
+          dateCreated: currentDate,
+          dateUpdated: currentDate,
         });
         owner
           .save()
@@ -77,17 +81,21 @@ const resolvers = {
     // OWNERS
     // get all owners
     getAllOwners: () => {
-      return Owner.find()
-        .exec()
-        .then((docs) => {
-          // console.log("getAllOwners", docs);
-          console.log("getAllOwners is ok!");
-          return docs;
-        })
-        .catch((err) => {
-          console.log("getAllOwners error: ", err);
-          return { error: err };
-        });
+      return (
+        Owner.find()
+          // .sort({ updated_At: -1 })
+          .sort({ _id: -1 })
+          .exec()
+          .then((docs) => {
+            // console.log("getAllOwners", docs);
+            console.log("getAllOwners is ok!", docs[0]);
+            return docs;
+          })
+          .catch((err) => {
+            console.log("getAllOwners error: ", err);
+            return { error: err };
+          })
+      );
     },
     // get owner by id
     getOwner: ({ id }) => {
@@ -179,7 +187,10 @@ const resolvers = {
               newOwnersList: allOwners,
             });
 
-            return doc;
+            return {
+              id: input.id,
+              ...doc,
+            };
           } else {
             return { message: "No valid entry found for provided ID" };
           }
