@@ -2,6 +2,7 @@ const { PubSub, withFilter } = require("graphql-subscriptions");
 const Owner = require("../models/owner");
 const User = require("../models/user");
 const mongoose = require("mongoose");
+const getCurrentDate = require("../utils/getCurrentDate");
 const ownersFromBackup = require("../ownersBackUp.json");
 
 const pubsub = new PubSub();
@@ -111,6 +112,8 @@ const resolvers = {
     // add owner
     createOwner: (parent, { input }) => {
       // console.log('createOwner', input)
+      const currentDate = getCurrentDate();
+
       const owner = new Owner({
         _id: new mongoose.Types.ObjectId(),
         name: input.name,
@@ -123,6 +126,8 @@ const resolvers = {
         whoGave: input.whoGave,
         ktoDalTel: input.ktoDalTel,
         jivoder: input.jivoder,
+        dateCreated: currentDate,
+        dateUpdated: currentDate,
       });
 
       return owner
@@ -150,9 +155,12 @@ const resolvers = {
       // return input
       const updateOps = {};
       // console.log('input', input)
+      const currentDate = getCurrentDate();
       for (const ops of Object.keys(input)) {
         updateOps[ops] = input[ops];
       }
+      // set update date
+      updateOps["dateUpdated"] = currentDate;
       console.log("updateOps", updateOps);
       // return false
       return Owner.updateOne(

@@ -11,9 +11,11 @@ const schema = buildSchema(`
     phones: [String]
     car: String
     history: String
-    whoGave: String,
+    whoGave: String
     ktoDalTel: String
     jivoder: Boolean
+    dateCreated: String
+    dateUpdated: String
   }
 
   input OwnerInput {
@@ -25,7 +27,7 @@ const schema = buildSchema(`
     phones: [String]
     car: String
     history: String
-    whoGave: String,
+    whoGave: String
     ktoDalTel: String
     jivoder: Boolean
   }
@@ -39,7 +41,7 @@ const schema = buildSchema(`
     phones: [String]
     car: String
     history: String
-    whoGave: String,
+    whoGave: String
     ktoDalTel: String
     jivoder: Boolean
   }
@@ -71,7 +73,6 @@ const schema = buildSchema(`
   type Subscription {
     newOwnersList: [Owner]
   }
-
 `);
 
 module.exports = schema;
