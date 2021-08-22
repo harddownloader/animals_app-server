@@ -83,12 +83,12 @@ const resolvers = {
     getAllOwners: () => {
       return (
         Owner.find()
-          // .sort({ updated_At: -1 })
+          // сортируем список по созданным, т.е. самые новые
           .sort({ _id: -1 })
           .exec()
           .then((docs) => {
             // console.log("getAllOwners", docs);
-            console.log("getAllOwners is ok!", docs[0]);
+            console.log("getAllOwners is ok!");
             return docs;
           })
           .catch((err) => {
