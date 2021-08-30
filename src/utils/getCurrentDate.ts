@@ -1,4 +1,4 @@
-const getCurrentDate = () => {
+export const getCurrentDate = (): string => {
   const today = new Date();
   const date =
     today.getFullYear() +
@@ -10,5 +10,3 @@ const getCurrentDate = () => {
     today.getHours() + "-" + today.getMinutes() + "-" + today.getSeconds();
   return date + "-" + time;
 };
-
-module.exports = getCurrentDate;

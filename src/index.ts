@@ -1,14 +1,33 @@
 // @ts-check
-const { createServer } = require("http");
-const express = require("express");
-const { execute, subscribe } = require("graphql");
-const { ApolloServer } = require("apollo-server-express");
-const { SubscriptionServer } = require("subscriptions-transport-ws");
-const { makeExecutableSchema } = require("@graphql-tools/schema");
-const typeDefs = require("./graphql/schema.js");
-const resolvers = require("./graphql/resolvers.js");
+import express from "express";
 require("dotenv").config();
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+import { createServer } from "http";
+// graphql + apollo
+import { execute, subscribe } from "graphql";
+import { ApolloServer } from "apollo-server-express";
+import { SubscriptionServer } from "subscriptions-transport-ws";
+import { makeExecutableSchema } from "@graphql-tools/schema";
+import { typeDefs } from "./graphql/schema/index";
+import { resolvers } from "./graphql/resolvers/index";
+// session
+// const uuid = require('uuid/v4')
+import session from "express-session";
+// const cookieParser = require("cookie-parser");
+// const csrf = require("csurf");
+// const admin = require("firebase-admin");
+
+// add & configure middleware
+// app.use(session({
+//   genid: (req) => {
+//     console.log('Inside the session middleware')
+//     console.log(req.sessionID)
+//     return uuid() // use UUIDs for session IDs
+//   },
+//   secret: 'keyboard cat',
+//   resave: false,
+//   saveUninitialized: true
+// }))
 
 // mongoose
 mongoose

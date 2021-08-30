@@ -27,8 +27,6 @@ const ownersFromBackup = require("./ownersBackUp.json");
 //   databaseURL: process.env.FIREBASE_HOST,
 // });
 
-// console.log(defaultApp.name);
-
 // Retrieve services via the defaultApp variable...
 // var defaultAuth = defaultApp.auth();
 // var defaultDatabase = defaultApp.database();
@@ -86,13 +84,13 @@ const root = {
     // check ownerId in list
     // если нету, то пушим и слхраняем
 
-    return 
+    return;
   },
   deleteOwnerToUsersOwnersList({ userId, ownerId }) {
     // берем юзера
     // проверяем есть ли в его списке владелец с таким индификатором
     // если есть, то удаляем и сохраняем
-    return 
+    return;
   },
 
   // OWNERS
@@ -148,7 +146,7 @@ const root = {
         .save()
         .then((result) => {
           console.log(result);
-          return result
+          return result;
         })
         .catch((err) => {
           console.log(err);
@@ -178,10 +176,10 @@ const root = {
     return owner
       .save()
       .then((result) => {
-        console.log('result = ', result);
-        console.log(result._id)
+        console.log("result = ", result);
+        console.log(result._id);
         // return { ...result._doc };
-        return result
+        return result;
       })
       .catch((err) => {
         console.log(err);
@@ -191,11 +189,10 @@ const root = {
   // update owner fields
   updateOwner: ({ input }) => {
     const updateOps = {};
-    // console.log('input', input)
     for (const ops of Object.keys(input)) {
       updateOps[ops] = input[ops];
     }
-    console.log('updateOps', updateOps)
+    console.log("updateOps", updateOps);
     // return false
     return Owner.updateOne(
       { _id: input.id },
@@ -282,4 +279,6 @@ app.use(express.static(path.resolve(__dirname, "static")));
 // app.use(routers);
 
 // up server
-app.listen(process.env.PORT || 3033, () => console.log("🚀 Server is running..."));
+app.listen(process.env.PORT || 3033, () =>
+  console.log("🚀 Server is running...")
+);

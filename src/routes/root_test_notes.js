@@ -140,7 +140,6 @@ const root = {
   // update owner fields
   updateOwner: ({ input }) => {
     const updateOps = {};
-    // console.log('input', input)
     for (const ops of Object.keys(input)) {
       updateOps[ops] = input[ops];
     }

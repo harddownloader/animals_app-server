@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
@@ -7,4 +7,4 @@ const userSchema = mongoose.Schema({
   idAddedOwnersHim: mongoose.Schema.Types.Mixed,
 });
 
-module.exports = mongoose.model('User', userSchema);
+export default mongoose.model("User", userSchema);

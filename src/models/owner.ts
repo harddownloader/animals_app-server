@@ -16,4 +16,4 @@ const ownerSchema = mongoose.Schema({
   dateUpdated: String,
 });
 
-module.exports = mongoose.model("Owner", ownerSchema);
+export default mongoose.model("Owner", ownerSchema);

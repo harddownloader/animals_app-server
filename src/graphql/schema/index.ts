@@ -1,6 +1,6 @@
-const { buildSchema } = require("graphql");
+import { buildSchema } from "graphql";
 
-const schema = buildSchema(`
+export const typeDefs = buildSchema(`
   
   type Owner {
     id: ID
@@ -53,6 +53,13 @@ const schema = buildSchema(`
     idAddedOwnersHim: [String]!
   }
 
+
+  type AuthData {
+    userId: ID!
+    token: String!
+    tokenExpiration: Int!
+  }
+
   type Query {
     getAllUsers: [User]
     getUser(id: ID): User
@@ -60,6 +67,7 @@ const schema = buildSchema(`
     getOwner(id: ID): Owner
 
     upOwnersByBackup: String
+    login(email: String!, password: String!): AuthData!
   }
 
   type Mutation {
@@ -74,5 +82,3 @@ const schema = buildSchema(`
     newOwnersList: [Owner]
   }
 `);
-
-module.exports = schema;
