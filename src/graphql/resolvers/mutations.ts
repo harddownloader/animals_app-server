@@ -1,10 +1,10 @@
-import { getCurrentDate } from "../../utils/getCurrentDate";
-import { PubSub } from "graphql-subscriptions";
+import { getCurrentDate } from '../../utils/getCurrentDate';
+import { PubSub } from 'graphql-subscriptions';
 const pubsub = new PubSub();
-import mongoose from "mongoose";
-import Owner from "../../models/owner";
-import User from "../../models/user";
-import { queries } from "./queries";
+import mongoose from 'mongoose';
+import Owner from '../../models/owner';
+import User from '../../models/user';
+import { queries } from './queries';
 
 export const mutations = {
   // OWNERS
@@ -31,12 +31,12 @@ export const mutations = {
     return owner
       .save()
       .then(async (result) => {
-        console.log("result = ", result);
+        console.log('result = ', result);
         console.log(result._id);
 
         // берем новый список владельцев
         const allOwners = await queries.getAllOwners();
-        await pubsub.publish("OWNERS_UPDATED", {
+        await pubsub.publish('OWNERS_UPDATED', {
           newOwnersList: allOwners,
         });
 
@@ -56,8 +56,8 @@ export const mutations = {
       updateOps[ops] = input[ops];
     }
     // set update date
-    updateOps["dateUpdated"] = currentDate;
-    console.log("updateOps", updateOps);
+    updateOps['dateUpdated'] = currentDate;
+    console.log('updateOps', updateOps);
     // return false
     return Owner.updateOne(
       { _id: input.id },
@@ -67,11 +67,11 @@ export const mutations = {
     )
       .exec()
       .then(async (doc) => {
-        console.log("From database", doc);
+        console.log('From database', doc);
         if (doc) {
           // берем новый список владельцев
           const allOwners = await queries.getAllOwners();
-          await pubsub.publish("OWNERS_UPDATED", {
+          await pubsub.publish('OWNERS_UPDATED', {
             newOwnersList: allOwners,
           });
 
@@ -80,7 +80,7 @@ export const mutations = {
             ...doc,
           };
         } else {
-          return { message: "No valid entry found for provided ID" };
+          return { message: 'No valid entry found for provided ID' };
         }
       })
       .catch((err) => {
@@ -93,17 +93,17 @@ export const mutations = {
     return Owner.deleteOne({ _id: id })
       .exec()
       .then(async (doc) => {
-        console.log("From database", doc);
+        console.log('From database', doc);
         if (doc) {
           // берем новый список владельцев
           const allOwners = await queries.getAllOwners();
-          await pubsub.publish("OWNERS_UPDATED", {
+          await pubsub.publish('OWNERS_UPDATED', {
             newOwnersList: allOwners,
           });
 
           return doc;
         } else {
-          return { message: "No valid entry found for provided ID" };
+          return { message: 'No valid entry found for provided ID' };
         }
       })
       .catch((err) => {
@@ -116,10 +116,10 @@ export const mutations = {
   // add ownerId to user
   addOwnerIdToUser: async (parent, { ownerId, userId }) => {
     const user = await queries.getUser(userId);
-    if (user.hasOwnProperty("error")) {
-      return { error: "Something is wrong" };
-    } else if (user.hasOwnProperty("message")) {
-      return { message: "No valid entry found for provided ID" };
+    if (user.hasOwnProperty('error')) {
+      return { error: 'Something is wrong' };
+    } else if (user.hasOwnProperty('message')) {
+      return { message: 'No valid entry found for provided ID' };
     }
     user.idAddedOwnersHim.push(ownerId);
     return User.updateOne(
@@ -130,11 +130,11 @@ export const mutations = {
     )
       .exec()
       .then(async (doc) => {
-        console.log("From database", doc);
+        console.log('From database', doc);
         if (doc) {
           return doc;
         } else {
-          return { message: "No valid entry found for provided ID" };
+          return { message: 'No valid entry found for provided ID' };
         }
       })
       .catch((err) => {

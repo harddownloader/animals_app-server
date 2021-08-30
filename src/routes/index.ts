@@ -1,16 +1,16 @@
-const express = require("express");
-const mongoose = require("mongoose");
+const express = require('express');
+const mongoose = require('mongoose');
 // const controllers = require('../controllers/servers')
 const router = express.Router();
-const Owner = require("../models/owner");
-const User = require("../models/user");
+const Owner = require('../models/owner');
+const User = require('../models/user');
 
 // routes
 // router.post('/api/server/get-all', controllers.getAll)
 // router.post('/api/server/get-first', controllers.getFirst)
 
 // get all owners
-router.get("/owners", (req, res, next) => {
+router.get('/owners', (req, res, next) => {
   Owner.find()
     .exec()
     .then((docs) => {
@@ -26,18 +26,18 @@ router.get("/owners", (req, res, next) => {
 });
 
 // get by id
-router.get("/owners/:ownerId", (req, res, next) => {
+router.get('/owners/:ownerId', (req, res, next) => {
   const id = req.params.ownerId;
   Owner.findById(id)
     .exec()
     .then((doc) => {
-      console.log("From database", doc);
+      console.log('From database', doc);
       if (doc) {
         res.status(200).json(doc);
       } else {
         res
           .status(404)
-          .json({ message: "No valid entry found for provided ID" });
+          .json({ message: 'No valid entry found for provided ID' });
       }
     })
     .catch((err) => {
@@ -47,8 +47,8 @@ router.get("/owners/:ownerId", (req, res, next) => {
 });
 
 // add owner
-router.post("/owners", (req, res, next) => {
-  console.log("req.body", req.body);
+router.post('/owners', (req, res, next) => {
+  console.log('req.body', req.body);
   const owner = new Owner({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
@@ -69,7 +69,7 @@ router.post("/owners", (req, res, next) => {
     })
     .catch((err) => console.log(err));
   res.status(201).json({
-    message: "Heading POST to /owners",
+    message: 'Heading POST to /owners',
     createdOwner: owner,
   });
 });
@@ -125,7 +125,7 @@ router.post("/owners", (req, res, next) => {
 ]
  */
 // update owner fields
-router.patch("/owners/:ownerId", (req, res, next) => {
+router.patch('/owners/:ownerId', (req, res, next) => {
   const id = req.params.ownerId;
   const updateOps = {};
   for (const ops of req.body) {
@@ -150,7 +150,7 @@ router.patch("/owners/:ownerId", (req, res, next) => {
 });
 
 // delete owner
-router.delete("/owners/:ownerId", (req, res, next) => {
+router.delete('/owners/:ownerId', (req, res, next) => {
   const id = req.params.ownerId;
   Owner.remove({ _id: id })
     .exec()
@@ -167,7 +167,7 @@ router.delete("/owners/:ownerId", (req, res, next) => {
 
 // USERS
 // get all users
-router.get("/users", (req, res, next) => {
+router.get('/users', (req, res, next) => {
   User.find()
     .exec()
     .then((docs) => {
@@ -183,18 +183,18 @@ router.get("/users", (req, res, next) => {
 });
 
 // get user by id
-router.get("/users/:userId", (req, res, next) => {
+router.get('/users/:userId', (req, res, next) => {
   const id = req.params.userId;
   User.findById(id)
     .exec()
     .then((doc) => {
-      console.log("From database", doc);
+      console.log('From database', doc);
       if (doc) {
         res.status(200).json(doc);
       } else {
         res
           .status(404)
-          .json({ message: "No valid entry found for provided ID" });
+          .json({ message: 'No valid entry found for provided ID' });
       }
     })
     .catch((err) => {

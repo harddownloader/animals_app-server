@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const ownerSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
@@ -16,4 +16,4 @@ const ownerSchema = mongoose.Schema({
   dateUpdated: String,
 });
 
-export default mongoose.model("Owner", ownerSchema);
+export default mongoose.model('Owner', ownerSchema);

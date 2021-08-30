@@ -1,18 +1,18 @@
 // @ts-check
-import express from "express";
-require("dotenv").config();
-import mongoose from "mongoose";
-import { createServer } from "http";
+import express from 'express';
+require('dotenv').config();
+import mongoose from 'mongoose';
+import { createServer } from 'http';
 // graphql + apollo
-import { execute, subscribe } from "graphql";
-import { ApolloServer } from "apollo-server-express";
-import { SubscriptionServer } from "subscriptions-transport-ws";
-import { makeExecutableSchema } from "@graphql-tools/schema";
-import { typeDefs } from "./graphql/schema/index";
-import { resolvers } from "./graphql/resolvers/index";
+import { execute, subscribe } from 'graphql';
+import { ApolloServer } from 'apollo-server-express';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { typeDefs } from './graphql/schema/index';
+import { resolvers } from './graphql/resolvers/index';
 // session
 // const uuid = require('uuid/v4')
-import session from "express-session";
+import session from 'express-session';
 // const cookieParser = require("cookie-parser");
 // const csrf = require("csurf");
 // const admin = require("firebase-admin");
@@ -35,7 +35,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("MongoDB connected"))
+  .then(() => console.log('MongoDB connected'))
   .catch((err) => console.log(err));
 
 (async () => {
@@ -43,8 +43,8 @@ mongoose
   const app = express();
   const httpServer = createServer(app);
 
-  app.get("/rest", function (req, res) {
-    return res.json({ data: "rest" });
+  app.get('/rest', function (req, res) {
+    return res.json({ data: 'rest' });
     // return User.find()
     //   .exec()
     //   .then((docs) => {

@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // @ts-check
 const express_1 = __importDefault(require("express"));
-require("dotenv").config();
+require('dotenv').config();
 const mongoose_1 = __importDefault(require("mongoose"));
 const http_1 = require("http");
 // graphql + apollo
@@ -44,14 +44,14 @@ mongoose_1.default
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
-    .then(() => console.log("MongoDB connected"))
+    .then(() => console.log('MongoDB connected'))
     .catch((err) => console.log(err));
 (() => __awaiter(void 0, void 0, void 0, function* () {
     const PORT = 3033;
     const app = (0, express_1.default)();
     const httpServer = (0, http_1.createServer)(app);
-    app.get("/rest", function (req, res) {
-        return res.json({ data: "rest" });
+    app.get('/rest', function (req, res) {
+        return res.json({ data: 'rest' });
         // return User.find()
         //   .exec()
         //   .then((docs) => {

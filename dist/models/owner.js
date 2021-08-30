@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const ownerSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: String,
@@ -16,4 +16,4 @@ const ownerSchema = mongoose.Schema({
     dateCreated: String,
     dateUpdated: String,
 });
-exports.default = mongoose.model("Owner", ownerSchema);
+exports.default = mongoose.model('Owner', ownerSchema);

@@ -42,7 +42,7 @@ exports.queries = {
                 // throw err;
             });
         }
-        return "loading owners from backup complete!";
+        return 'loading owners from backup complete!';
     },
     // USERS
     // get all users
@@ -51,11 +51,11 @@ exports.queries = {
         return user_1.default.find()
             .exec()
             .then((docs) => {
-            console.log("getAllUsers", docs);
+            console.log('getAllUsers', docs);
             return docs;
         })
             .catch((err) => {
-            console.log("getAllUsers error: ", err);
+            console.log('getAllUsers error: ', err);
             return { error: err };
         });
     },
@@ -64,12 +64,12 @@ exports.queries = {
         return user_1.default.findById(id)
             .exec()
             .then((doc) => {
-            console.log("From database", doc);
+            console.log('From database', doc);
             if (doc) {
                 return doc;
             }
             else {
-                return { message: "No valid entry found for provided ID" };
+                return { message: 'No valid entry found for provided ID' };
             }
         })
             .catch((err) => {
@@ -85,11 +85,11 @@ exports.queries = {
             .sort({ _id: -1 })
             .exec()
             .then((docs) => {
-            console.log("getAllOwners is ok!");
+            console.log('getAllOwners is ok!');
             return docs;
         })
             .catch((err) => {
-            console.log("getAllOwners error: ", err);
+            console.log('getAllOwners error: ', err);
             return { error: err };
         }));
     },
@@ -98,12 +98,12 @@ exports.queries = {
         return owner_1.default.findById(id)
             .exec()
             .then((doc) => {
-            console.log("From database", doc);
+            console.log('From database', doc);
             if (doc) {
                 return doc;
             }
             else {
-                return { message: "No valid entry found for provided ID" };
+                return { message: 'No valid entry found for provided ID' };
             }
         })
             .catch((err) => {

@@ -43,11 +43,11 @@ exports.mutations = {
         return owner
             .save()
             .then((result) => __awaiter(void 0, void 0, void 0, function* () {
-            console.log("result = ", result);
+            console.log('result = ', result);
             console.log(result._id);
             // берем новый список владельцев
             const allOwners = yield queries_1.queries.getAllOwners();
-            yield pubsub.publish("OWNERS_UPDATED", {
+            yield pubsub.publish('OWNERS_UPDATED', {
                 newOwnersList: allOwners,
             });
             return result;
@@ -66,25 +66,25 @@ exports.mutations = {
             updateOps[ops] = input[ops];
         }
         // set update date
-        updateOps["dateUpdated"] = currentDate;
-        console.log("updateOps", updateOps);
+        updateOps['dateUpdated'] = currentDate;
+        console.log('updateOps', updateOps);
         // return false
         return owner_1.default.updateOne({ _id: input.id }, {
             $set: updateOps,
         })
             .exec()
             .then((doc) => __awaiter(void 0, void 0, void 0, function* () {
-            console.log("From database", doc);
+            console.log('From database', doc);
             if (doc) {
                 // берем новый список владельцев
                 const allOwners = yield queries_1.queries.getAllOwners();
-                yield pubsub.publish("OWNERS_UPDATED", {
+                yield pubsub.publish('OWNERS_UPDATED', {
                     newOwnersList: allOwners,
                 });
                 return Object.assign({ id: input.id }, doc);
             }
             else {
-                return { message: "No valid entry found for provided ID" };
+                return { message: 'No valid entry found for provided ID' };
             }
         }))
             .catch((err) => {
@@ -97,17 +97,17 @@ exports.mutations = {
         return owner_1.default.deleteOne({ _id: id })
             .exec()
             .then((doc) => __awaiter(void 0, void 0, void 0, function* () {
-            console.log("From database", doc);
+            console.log('From database', doc);
             if (doc) {
                 // берем новый список владельцев
                 const allOwners = yield queries_1.queries.getAllOwners();
-                yield pubsub.publish("OWNERS_UPDATED", {
+                yield pubsub.publish('OWNERS_UPDATED', {
                     newOwnersList: allOwners,
                 });
                 return doc;
             }
             else {
-                return { message: "No valid entry found for provided ID" };
+                return { message: 'No valid entry found for provided ID' };
             }
         }))
             .catch((err) => {
@@ -119,11 +119,11 @@ exports.mutations = {
     // add ownerId to user
     addOwnerIdToUser: (parent, { ownerId, userId }) => __awaiter(void 0, void 0, void 0, function* () {
         const user = yield queries_1.queries.getUser(userId);
-        if (user.hasOwnProperty("error")) {
-            return { error: "Something is wrong" };
+        if (user.hasOwnProperty('error')) {
+            return { error: 'Something is wrong' };
         }
-        else if (user.hasOwnProperty("message")) {
-            return { message: "No valid entry found for provided ID" };
+        else if (user.hasOwnProperty('message')) {
+            return { message: 'No valid entry found for provided ID' };
         }
         user.idAddedOwnersHim.push(ownerId);
         return user_1.default.updateOne({ _id: userId }, {
@@ -131,12 +131,12 @@ exports.mutations = {
         })
             .exec()
             .then((doc) => __awaiter(void 0, void 0, void 0, function* () {
-            console.log("From database", doc);
+            console.log('From database', doc);
             if (doc) {
                 return doc;
             }
             else {
-                return { message: "No valid entry found for provided ID" };
+                return { message: 'No valid entry found for provided ID' };
             }
         }))
             .catch((err) => {

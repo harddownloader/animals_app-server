@@ -5,11 +5,11 @@ const root = {
     return User.find()
       .exec()
       .then((docs) => {
-        console.log("getAllUsers", docs);
+        console.log('getAllUsers', docs);
         return docs;
       })
       .catch((err) => {
-        console.log("getAllUsers error: ", err);
+        console.log('getAllUsers error: ', err);
         return { error: err };
       });
   },
@@ -18,11 +18,11 @@ const root = {
     return User.findById(id)
       .exec()
       .then((doc) => {
-        console.log("From database", doc);
+        console.log('From database', doc);
         if (doc) {
           return doc;
         } else {
-          return { message: "No valid entry found for provided ID" };
+          return { message: 'No valid entry found for provided ID' };
         }
       })
       .catch((err) => {
@@ -50,11 +50,11 @@ const root = {
     return Owner.find()
       .exec()
       .then((docs) => {
-        console.log("getAllOwners", docs);
+        console.log('getAllOwners', docs);
         return docs;
       })
       .catch((err) => {
-        console.log("getAllOwners error: ", err);
+        console.log('getAllOwners error: ', err);
         return { error: err };
       });
   },
@@ -63,11 +63,11 @@ const root = {
     return Owner.findById(id)
       .exec()
       .then((doc) => {
-        console.log("From database", doc);
+        console.log('From database', doc);
         if (doc) {
           return doc;
         } else {
-          return { message: "No valid entry found for provided ID" };
+          return { message: 'No valid entry found for provided ID' };
         }
       })
       .catch((err) => {
@@ -106,7 +106,7 @@ const root = {
     }
 
     return {
-      status: "loading owners from backup complete!",
+      status: 'loading owners from backup complete!',
     };
   },
   // add owner
@@ -127,7 +127,7 @@ const root = {
     return owner
       .save()
       .then((result) => {
-        console.log("result = ", result);
+        console.log('result = ', result);
         console.log(result._id);
         // return { ...result._doc };
         return result;
@@ -143,7 +143,7 @@ const root = {
     for (const ops of Object.keys(input)) {
       updateOps[ops] = input[ops];
     }
-    console.log("updateOps", updateOps);
+    console.log('updateOps', updateOps);
     // return false
     return Owner.updateOne(
       { _id: input.id },
@@ -153,11 +153,11 @@ const root = {
     )
       .exec()
       .then((doc) => {
-        console.log("From database", doc);
+        console.log('From database', doc);
         if (doc) {
           return doc;
         } else {
-          return { message: "No valid entry found for provided ID" };
+          return { message: 'No valid entry found for provided ID' };
         }
       })
       .catch((err) => {
@@ -170,11 +170,11 @@ const root = {
     return Owner.remove({ _id: id })
       .exec()
       .then((doc) => {
-        console.log("From database", doc);
+        console.log('From database', doc);
         if (doc) {
           return doc;
         } else {
-          return { message: "No valid entry found for provided ID" };
+          return { message: 'No valid entry found for provided ID' };
         }
       })
       .catch((err) => {
