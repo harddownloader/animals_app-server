@@ -50,9 +50,23 @@ export const typeDefs = buildSchema(`
     id: ID
     fio: String
     email: String
+    phone: String
+    password: String
     idAddedOwnersHim: [String]!
   }
 
+  input UserInput {
+    id: ID
+    fio: String
+    email: String
+    phone: String
+    password: String
+  }
+
+  input LoginInput {
+    email: String
+    password: String
+  }
 
   type AuthData {
     userId: ID!
@@ -67,14 +81,21 @@ export const typeDefs = buildSchema(`
     getOwner(id: ID): Owner
 
     upOwnersByBackup: String
-    login(email: String!, password: String!): AuthData!
+    
+
+    refresh: String
+    getTokens: String
+    upsert: String
   }
 
   type Mutation {
+    login(input: LoginInput!): AuthData
+    
     createOwner(input: OwnerInput!): Owner
     updateOwner(input: OwnerUpdateInput!): Owner
     deleteOwner(id: String!): Owner
 
+    createUser(input: UserInput!): User
     addOwnerIdToUser(ownerId: String!, userId: String!): User
   }
 

@@ -4,7 +4,11 @@ import mongoose from 'mongoose';
 import Owner from '../../models/owner';
 import User from '../../models/user';
 
+import { token } from './token/index';
+
 export const queries = {
+  ...token,
+
   // upload owners from backup file
   upOwnersByBackup() {
     const currentDate = getCurrentDate();

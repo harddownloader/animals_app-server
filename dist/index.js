@@ -24,6 +24,11 @@ const subscriptions_transport_ws_1 = require("subscriptions-transport-ws");
 const schema_1 = require("@graphql-tools/schema");
 const index_1 = require("./graphql/schema/index");
 const index_2 = require("./graphql/resolvers/index");
+const is_auth_1 = __importDefault(require("./middleware/is-auth"));
+// config
+const config_1 = require("./common/config");
+const morgan_1 = __importDefault(require("morgan"));
+const logging_1 = require("./common/logging");
 // const cookieParser = require("cookie-parser");
 // const csrf = require("csurf");
 // const admin = require("firebase-admin");
@@ -47,8 +52,11 @@ mongoose_1.default
     .then(() => console.log('MongoDB connected'))
     .catch((err) => console.log(err));
 (() => __awaiter(void 0, void 0, void 0, function* () {
-    const PORT = 3033;
     const app = (0, express_1.default)();
+    app.use(is_auth_1.default);
+    app.use((0, morgan_1.default)(':method :status :url :userId size req :req[content-length] res :res[content-length] - :response-time ms', {
+        stream: logging_1.stream,
+    }));
     const httpServer = (0, http_1.createServer)(app);
     app.get('/rest', function (req, res) {
         return res.json({ data: 'rest' });
@@ -72,8 +80,8 @@ mongoose_1.default
     yield server.start();
     server.applyMiddleware({ app });
     subscriptions_transport_ws_1.SubscriptionServer.create({ schema, execute: graphql_1.execute, subscribe: graphql_1.subscribe }, { server: httpServer, path: server.graphqlPath });
-    httpServer.listen(PORT, () => {
-        console.log(`🚀 Query endpoint ready at http://localhost:${PORT}${server.graphqlPath}`);
-        console.log(`🚀 Subscription endpoint ready at ws://localhost:${PORT}${server.graphqlPath}`);
+    httpServer.listen(config_1.PORT, () => {
+        console.log(`🚀 Query endpoint ready at http://localhost:${config_1.PORT}${server.graphqlPath}`);
+        console.log(`🚀 Subscription endpoint ready at ws://localhost:${config_1.PORT}${server.graphqlPath}`);
     });
 }))();

@@ -12,6 +12,8 @@ Desktop.ini
 .directory
 *~
 
+#logs
+logs
 
 # npm
 node_modules
@@ -32,3 +34,8 @@ benchmarks/graphs
 
 # configs
 configs
+
+# builds
+dist
+
+src/ownersBackUp.json

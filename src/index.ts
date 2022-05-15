@@ -10,6 +10,12 @@ import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { typeDefs } from './graphql/schema/index';
 import { resolvers } from './graphql/resolvers/index';
+import isAuth from './middleware/is-auth';
+// config
+import { PORT } from './common/config';
+import morgan from 'morgan';
+import { stream } from './common/logging';
+
 // session
 // const uuid = require('uuid/v4')
 import session from 'express-session';
@@ -39,8 +45,16 @@ mongoose
   .catch((err) => console.log(err));
 
 (async () => {
-  const PORT = 3033;
   const app = express();
+  app.use(isAuth);
+  app.use(
+    morgan(
+      ':method :status :url :userId size req :req[content-length] res :res[content-length] - :response-time ms',
+      {
+        stream: stream,
+      }
+    )
+  );
   const httpServer = createServer(app);
 
   app.get('/rest', function (req, res) {

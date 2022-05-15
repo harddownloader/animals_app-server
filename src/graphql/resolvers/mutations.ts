@@ -5,8 +5,34 @@ import mongoose from 'mongoose';
 import Owner from '../../models/owner';
 import User from '../../models/user';
 import { queries } from './queries';
+import bcrypt from 'bcryptjs';
+// import jwt from 'jsonwebtoken';
+import { tokenService } from './token/index';
+import { AUTHENTICATION_ERROR } from '../../errors/appErrors';
 
 export const mutations = {
+  login: async (parent, { input }) => {
+    console.log('login', input);
+    // return { userId: 'efefefefe', token: 'token', tokenExpiration: 1 };
+    const userEntity = await User.findOne({ email: input.email });
+    if (!userEntity) {
+      throw new Error('User does not exist!');
+    }
+    const isEqual = await bcrypt.compare(input.password, userEntity.password);
+    if (!isEqual) {
+      // throw new Error('Password is incorrect!');
+      throw new AUTHENTICATION_ERROR();
+    }
+    // const token = jwt.sign(
+    //   { userId: user.id, email: user.email },
+    //   process.env.JWT_SECRET_KEY,
+    //   {
+    //     expiresIn: '1h',
+    //   }
+    // );
+    const tokens = await tokenService.getTokens(userEntity._id);
+    return { ...tokens, userId: userEntity.id, tokenExpiration: 1 };
+  },
   // OWNERS
   // add owner
   createOwner: (parent, { input }) => {
@@ -113,6 +139,30 @@ export const mutations = {
   },
 
   // USERS
+  createUser: async (parent, { input }) => {
+    try {
+      const existingUser = await User.findOne({ email: input.email });
+      if (existingUser) {
+        throw new Error('User exists already.');
+      }
+      const hashedPassword = await bcrypt.hash(input.password, 12);
+
+      const user = new User({
+        _id: new mongoose.Types.ObjectId(),
+        email: input.email,
+        fio: input.fio,
+        phone: input.phone,
+        idAddedOwnersHim: [],
+        password: hashedPassword,
+      });
+
+      const result = await user.save();
+
+      return { ...result._doc, password: null, _id: result.id };
+    } catch (err) {
+      throw err;
+    }
+  },
   // add ownerId to user
   addOwnerIdToUser: async (parent, { ownerId, userId }) => {
     const user = await queries.getUser(userId);

@@ -9,7 +9,8 @@ const ownersBackUp_json_1 = __importDefault(require("../../ownersBackUp.json"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const owner_1 = __importDefault(require("../../models/owner"));
 const user_1 = __importDefault(require("../../models/user"));
-exports.queries = {
+const index_1 = require("./token/index");
+exports.queries = Object.assign(Object.assign({}, index_1.token), { 
     // upload owners from backup file
     upOwnersByBackup() {
         const currentDate = (0, getCurrentDate_1.getCurrentDate)();
@@ -43,7 +44,7 @@ exports.queries = {
             });
         }
         return 'loading owners from backup complete!';
-    },
+    }, 
     // USERS
     // get all users
     getAllUsers: () => {
@@ -58,7 +59,7 @@ exports.queries = {
             console.log('getAllUsers error: ', err);
             return { error: err };
         });
-    },
+    }, 
     // get user by id
     getUser: ({ id }) => {
         return user_1.default.findById(id)
@@ -76,7 +77,7 @@ exports.queries = {
             console.log(err);
             return { error: err };
         });
-    },
+    }, 
     // OWNERS
     // get all owners
     getAllOwners: () => {
@@ -92,7 +93,7 @@ exports.queries = {
             console.log('getAllOwners error: ', err);
             return { error: err };
         }));
-    },
+    }, 
     // get owner by id
     getOwner: ({ id }) => {
         return owner_1.default.findById(id)
@@ -110,5 +111,4 @@ exports.queries = {
             console.log(err);
             return { error: err };
         });
-    },
-};
+    } });
