@@ -6,7 +6,7 @@ const ownerSchema = mongoose.Schema({
     name: String,
     adress: String,
     phones: mongoose.Schema.Types.Mixed,
-    photoOwnerImage: String,
+    photoOwnerImage: mongoose.Schema.Types.Mixed,
     photoPasportImage: String,
     car: String,
     history: String,

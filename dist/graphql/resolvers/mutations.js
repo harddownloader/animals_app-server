@@ -35,7 +35,7 @@ exports.mutations = {
         const isEqual = yield bcryptjs_1.default.compare(input.password, userEntity.password);
         if (!isEqual) {
             // throw new Error('Password is incorrect!');
-            throw new appErrors_1.AUTHENTICATION_ERROR();
+            throw new appErrors_1.AUTHENTICATION_ERROR('Password is incorrect!');
         }
         // const token = jwt.sign(
         //   { userId: user.id, email: user.email },

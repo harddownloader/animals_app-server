@@ -21,7 +21,7 @@ export const mutations = {
     const isEqual = await bcrypt.compare(input.password, userEntity.password);
     if (!isEqual) {
       // throw new Error('Password is incorrect!');
-      throw new AUTHENTICATION_ERROR();
+      throw new AUTHENTICATION_ERROR('Password is incorrect!');
     }
     // const token = jwt.sign(
     //   { userId: user.id, email: user.email },

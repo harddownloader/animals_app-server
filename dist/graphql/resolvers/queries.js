@@ -10,7 +10,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const owner_1 = __importDefault(require("../../models/owner"));
 const user_1 = __importDefault(require("../../models/user"));
 const index_1 = require("./token/index");
-exports.queries = Object.assign(Object.assign({}, index_1.token), { 
+exports.queries = Object.assign(Object.assign({}, index_1.tokenService), { 
     // upload owners from backup file
     upOwnersByBackup() {
         const currentDate = (0, getCurrentDate_1.getCurrentDate)();

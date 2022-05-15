@@ -5,6 +5,8 @@ import {
   FORBIDDEN,
   BAD_REQUEST,
   getStatusText,
+  StatusCodes,
+  getReasonPhrase,
 } from 'http-status-codes';
 
 class AppError extends Error {
@@ -19,7 +21,7 @@ class NotFoundError extends AppError {
     super(
       message || `Couldn't find a(an) ${entity} with: ${JSON.stringify(params)}`
     );
-    this.status = NOT_FOUND;
+    this.status = StatusCodes.NOT_FOUND;
   }
 }
 
@@ -27,7 +29,7 @@ class BadRequestError extends AppError {
   status: number;
   constructor(message) {
     super(message);
-    this.status = BAD_REQUEST;
+    this.status = StatusCodes.BAD_REQUEST;
   }
 }
 
@@ -35,23 +37,23 @@ class EntityExistsError extends AppError {
   status: number;
   constructor(message) {
     super(message);
-    this.status = EXPECTATION_FAILED;
+    this.status = StatusCodes.EXPECTATION_FAILED;
   }
 }
 
 class AuthorizationError extends AppError {
   status: number;
   constructor(message) {
-    super(message || getStatusText(UNAUTHORIZED));
-    this.status = UNAUTHORIZED;
+    super(message || getReasonPhrase(StatusCodes.UNAUTHORIZED));
+    this.status = StatusCodes.UNAUTHORIZED;
   }
 }
 
 class AuthenticationError extends AppError {
   status: number;
   constructor(message) {
-    super(message || getStatusText(FORBIDDEN));
-    this.status = FORBIDDEN;
+    super(message || getReasonPhrase(StatusCodes.FORBIDDEN));
+    this.status = StatusCodes.FORBIDDEN;
   }
 }
 const NOT_FOUND_ERROR = NotFoundError;
