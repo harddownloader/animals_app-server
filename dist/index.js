@@ -31,7 +31,6 @@ const morgan_1 = __importDefault(require("morgan"));
 const logging_1 = require("./common/logging");
 // const cookieParser = require("cookie-parser");
 // const csrf = require("csurf");
-// const admin = require("firebase-admin");
 // add & configure middleware
 // app.use(session({
 //   genid: (req) => {

@@ -21,7 +21,6 @@ import { stream } from './common/logging';
 import session from 'express-session';
 // const cookieParser = require("cookie-parser");
 // const csrf = require("csurf");
-// const admin = require("firebase-admin");
 
 // add & configure middleware
 // app.use(session({

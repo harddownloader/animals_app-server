@@ -8,10 +8,8 @@ exports.typeDefs = (0, graphql_1.buildSchema)(`
     id: ID
     name: String
     adress: String
-    photoOwnerImage: String
-    photoPasportImage: String
+    photos: [String]
     phones: [String]
-    car: String
     history: String
     whoGave: String
     ktoDalTel: String
@@ -24,10 +22,8 @@ exports.typeDefs = (0, graphql_1.buildSchema)(`
     id: ID
     name: String
     adress: String
-    photoOwnerImage: String
-    photoPasportImage: String
+    photos: [String]
     phones: [String]
-    car: String
     history: String
     whoGave: String
     ktoDalTel: String
@@ -38,10 +34,8 @@ exports.typeDefs = (0, graphql_1.buildSchema)(`
     id: ID
     name: String
     adress: String
-    photoOwnerImage: String
-    photoPasportImage: String
+    photos: [String]
     phones: [String]
-    car: String
     history: String
     whoGave: String
     ktoDalTel: String
