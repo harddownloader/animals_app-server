@@ -91,6 +91,7 @@ export const typeDefs = buildSchema(`
 
     createUser(input: UserInput!): User
     addOwnerIdToUser(ownerId: String!, userId: String!): User
+    testMutations: [Owner]
   }
 
   type Subscription {

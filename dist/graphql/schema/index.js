@@ -93,6 +93,7 @@ exports.typeDefs = (0, graphql_1.buildSchema)(`
 
     createUser(input: UserInput!): User
     addOwnerIdToUser(ownerId: String!, userId: String!): User
+    testMutations: [Owner]
   }
 
   type Subscription {

@@ -23,10 +23,7 @@ exports.queries = Object.assign(Object.assign({}, index_1.tokenService), {
                 adress: item.adress,
                 phones: item.phones,
                 // photos: [item.photoOwnerImage, item.photoPasportImage],
-                photos: item.photos
-                // photoPasportImage: item.pasportPhoto,
-                // car: item.car,
-                ,
+                photos: item.photos,
                 // photoPasportImage: item.pasportPhoto,
                 // car: item.car,
                 audios: [],

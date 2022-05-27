@@ -14,8 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mutations = void 0;
 const getCurrentDate_1 = require("../../utils/getCurrentDate");
-const graphql_subscriptions_1 = require("graphql-subscriptions");
-const pubsub = new graphql_subscriptions_1.PubSub();
+const subscriptions_1 = require("./subscriptions");
 const mongoose_1 = __importDefault(require("mongoose"));
 const owner_1 = __importDefault(require("../../models/owner"));
 const user_1 = __importDefault(require("../../models/user"));
@@ -72,7 +71,7 @@ exports.mutations = {
             console.log(result._id);
             // берем новый список владельцев
             const allOwners = yield queries_1.queries.getAllOwners();
-            yield pubsub.publish('OWNERS_UPDATED', {
+            yield subscriptions_1.pubsub.publish('OWNERS_UPDATED', {
                 newOwnersList: allOwners,
             });
             return result;
@@ -103,7 +102,7 @@ exports.mutations = {
             if (doc) {
                 // берем новый список владельцев
                 const allOwners = yield queries_1.queries.getAllOwners();
-                yield pubsub.publish('OWNERS_UPDATED', {
+                yield subscriptions_1.pubsub.publish('OWNERS_UPDATED', {
                     newOwnersList: allOwners,
                 });
                 return Object.assign({ id: input.id }, doc);
@@ -126,7 +125,7 @@ exports.mutations = {
             if (doc) {
                 // берем новый список владельцев
                 const allOwners = yield queries_1.queries.getAllOwners();
-                yield pubsub.publish('OWNERS_UPDATED', {
+                yield subscriptions_1.pubsub.publish('OWNERS_UPDATED', {
                     newOwnersList: allOwners,
                 });
                 return doc;

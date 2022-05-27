@@ -23,7 +23,7 @@ export const queries = {
         adress: item.adress,
         phones: item.phones,
         // photos: [item.photoOwnerImage, item.photoPasportImage],
-        photos: item.photos
+        photos: item.photos,
         // photoPasportImage: item.pasportPhoto,
         // car: item.car,
         audios: [],

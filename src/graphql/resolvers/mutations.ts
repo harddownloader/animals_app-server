@@ -1,6 +1,6 @@
 import { getCurrentDate } from '../../utils/getCurrentDate';
-import { PubSub } from 'graphql-subscriptions';
-const pubsub = new PubSub();
+
+import { pubsub } from './subscriptions'
 import mongoose from 'mongoose';
 import Owner from '../../models/owner';
 import User from '../../models/user';
