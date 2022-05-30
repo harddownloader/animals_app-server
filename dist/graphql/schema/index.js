@@ -9,6 +9,7 @@ exports.typeDefs = (0, graphql_1.buildSchema)(`
     name: String
     adress: String
     photos: [String]
+    audios: [String]
     phones: [String]
     history: String
     whoGave: String
@@ -23,6 +24,7 @@ exports.typeDefs = (0, graphql_1.buildSchema)(`
     name: String
     adress: String
     photos: [String]
+    audios: [String]
     phones: [String]
     history: String
     whoGave: String
@@ -35,6 +37,7 @@ exports.typeDefs = (0, graphql_1.buildSchema)(`
     name: String
     adress: String
     photos: [String]
+    audios: [String]
     phones: [String]
     history: String
     whoGave: String
@@ -77,7 +80,6 @@ exports.typeDefs = (0, graphql_1.buildSchema)(`
     getOwner(id: ID): Owner
 
     upOwnersByBackup: String
-    
 
     refresh: String
     getTokens: String

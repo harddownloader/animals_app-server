@@ -7,6 +7,7 @@ export const typeDefs = buildSchema(`
     name: String
     adress: String
     photos: [String]
+    audios: [String]
     phones: [String]
     history: String
     whoGave: String
@@ -21,6 +22,7 @@ export const typeDefs = buildSchema(`
     name: String
     adress: String
     photos: [String]
+    audios: [String]
     phones: [String]
     history: String
     whoGave: String
@@ -33,6 +35,7 @@ export const typeDefs = buildSchema(`
     name: String
     adress: String
     photos: [String]
+    audios: [String]
     phones: [String]
     history: String
     whoGave: String
@@ -75,7 +78,6 @@ export const typeDefs = buildSchema(`
     getOwner(id: ID): Owner
 
     upOwnersByBackup: String
-    
 
     refresh: String
     getTokens: String
