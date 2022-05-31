@@ -38,4 +38,4 @@ configs
 # builds
 dist
 
-src/ownersBackUp.json
+ownersBackUp.json

@@ -1,5 +1,5 @@
 import { getCurrentDate } from '../../utils/getCurrentDate';
-import ownersFromBackup from '../../ownersBackUp.json';
+import ownersFromBackup from '../../../ownersBackUp.json';
 import mongoose from 'mongoose';
 import Owner from '../../models/owner';
 import User from '../../models/user';
@@ -17,21 +17,27 @@ export const queries = {
     for (let i = 0; i < ownersFromBackup.length; i++) {
       const item = ownersFromBackup[i];
       // if(i > 0) return 'first return'
+      const photo = item.photo ? [item.photo] : []
+      const pasportPhoto = item.pasportPhoto ? [item.pasportPhoto] : []
+
       const owner = new Owner({
         _id: new mongoose.Types.ObjectId(),
         name: item.name,
         adress: item.adress,
-        phones: item.phones,
+        phones: item.phone,
+        // phones: item.phones,
         // photos: [item.photoOwnerImage, item.photoPasportImage],
-        photos: item.photos,
+        photos: [...photo, ...pasportPhoto],
+        // photos: item.photos,
         // photoPasportImage: item.pasportPhoto,
         // car: item.car,
         audios: [],
-        // history: `${item.history} ${item.car}`,
-        history: item.history,
+        history: `${item.history} ${item.car}`,
+        // history: item.history,
         whoGave: item.whoGave,
         ktoDalTel: item.ktoDalTel,
-        jivoder: item.jivoder,
+        // jivoder: item.jivoder,
+        jivoder: item.warn,
         dateCreated: currentDate,
         dateUpdated: currentDate,
       });
@@ -86,6 +92,7 @@ export const queries = {
   // get all owners
   getAllOwners: () => {
     console.log('getAllOwners')
+    // queries.upOwnersByBackup()
     // return fire.db.collection('owners')
     //   .get()
     //   .then((querySnapshot: { docs: any[] }) => {
