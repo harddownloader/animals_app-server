@@ -1,5 +1,5 @@
 import { getCurrentDate } from '../../utils/getCurrentDate';
-import ownersFromBackup from '../../../ownersBackUp.json';
+// import ownersFromBackup from '../../../ownersBackUp.json';
 import mongoose from 'mongoose';
 import Owner from '../../models/owner';
 import User from '../../models/user';
@@ -11,12 +11,11 @@ export const queries = {
   ...tokenService,
 
   // upload owners from backup file
-  upOwnersByBackup() {
+  /*upOwnersByBackup() {
     const currentDate = getCurrentDate();
 
     for (let i = 0; i < ownersFromBackup.length; i++) {
       const item = ownersFromBackup[i];
-      // if(i > 0) return 'first return'
       const photo = item.photo ? [item.photo] : []
       const pasportPhoto = item.pasportPhoto ? [item.pasportPhoto] : []
 
@@ -54,7 +53,7 @@ export const queries = {
     }
 
     return 'loading owners from backup complete!';
-  },
+  },*/
   // USERS
   // get all users
   getAllUsers: () => {
