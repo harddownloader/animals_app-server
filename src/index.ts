@@ -56,6 +56,9 @@ mongoose
   );
   const httpServer = createServer(app);
 
+  app.get('/', function (req, res) {
+    return res.json({ text: 'api is running' })
+  })
   app.get('/rest', function (req, res) {
     return res.json({ data: 'rest' });
     // return User.find()
