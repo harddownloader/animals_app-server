@@ -57,7 +57,6 @@ export const queries = {
   // USERS
   // get all users
   getAllUsers: () => {
-    // return [{id: 'privet omlet'}]
     return User.find()
       .exec()
       .then((docs) => {
