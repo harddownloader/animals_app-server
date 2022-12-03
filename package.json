@@ -36,7 +36,7 @@
   },
   "engines": {
     "node": "14.x",
-    "yarn": "1.22.18"
+    "yarn": "1.22.17"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
