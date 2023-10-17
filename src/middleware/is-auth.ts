@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { JWT_SECRET_KEY } from "@/common/config";
+import { JWT_SECRET_KEY } from "./../common/config";//"@/common/config";
 
 export default (req, res, next) => {
   const authHeader = req.get('Authorization');

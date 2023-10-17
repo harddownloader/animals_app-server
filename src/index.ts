@@ -109,7 +109,6 @@ mongoose
   );
 
   httpServer.listen(PORT, () => {
-    console.log({wsServer})
     console.log(
       `🚀 Query endpoint ready at http://localhost:${PORT}${GRAPHQL_PATH}`
     );

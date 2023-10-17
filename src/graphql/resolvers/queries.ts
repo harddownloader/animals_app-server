@@ -1,59 +1,10 @@
-import { getCurrentDate } from '../../utils/getCurrentDate';
-import ownersFromBackup from '../../../ownersBackUp.json';
-import mongoose from 'mongoose';
 import Owner from '../../models/owner';
 import User from '../../models/user';
-import fire from '../../services/firebase'
 
 import { tokenService } from './token/index';
 
 export const queries = {
   ...tokenService,
-
-  // upload owners from backup file
-  upOwnersByBackup() {
-    const currentDate = getCurrentDate();
-
-    for (let i = 0; i < ownersFromBackup.length; i++) {
-      const item = ownersFromBackup[i];
-      const photo = item.photo ? [item.photo] : []
-      const pasportPhoto = item.pasportPhoto ? [item.pasportPhoto] : []
-
-      const owner = new Owner({
-        _id: new mongoose.Types.ObjectId(),
-        name: item.name,
-        adress: item.adress,
-        phones: item.phone,
-        // phones: item.phones,
-        // photos: [item.photoOwnerImage, item.photoPasportImage],
-        photos: [...photo, ...pasportPhoto],
-        // photos: item.photos,
-        // photoPasportImage: item.pasportPhoto,
-        // car: item.car,
-        audios: [],
-        history: `${item.history} ${item.car}`,
-        // history: item.history,
-        whoGave: item.whoGave,
-        ktoDalTel: item.ktoDalTel,
-        // jivoder: item.jivoder,
-        jivoder: item.warn,
-        dateCreated: currentDate,
-        dateUpdated: currentDate,
-      });
-      owner
-        .save()
-        .then((result) => {
-          console.log(result);
-          return result;
-        })
-        .catch((err) => {
-          console.log(err);
-          // throw err;
-        });
-    }
-
-    return 'loading owners from backup complete!';
-  },
   // USERS
   // get all users
   getAllUsers: () => {
