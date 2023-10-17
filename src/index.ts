@@ -55,7 +55,7 @@ mongoose
   const httpServer = createServer(app);
 
   app.get('/', function (req, res) {
-    return res.json({ text: 'api is running' });
+    return res.json({ text: 'api is running v2' });
   });
 
   const schema = makeExecutableSchema({
