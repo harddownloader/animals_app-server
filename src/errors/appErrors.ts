@@ -56,6 +56,7 @@ class AuthenticationError extends AppError {
     this.status = StatusCodes.FORBIDDEN;
   }
 }
+
 const NOT_FOUND_ERROR = NotFoundError;
 const BAD_REQUEST_ERROR = BadRequestError;
 const AUTHORIZATION_ERROR = AuthorizationError;

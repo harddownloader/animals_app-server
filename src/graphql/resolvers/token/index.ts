@@ -7,7 +7,7 @@ import {
   JWT_EXPIRE_TIME,
   JWT_REFRESH_SECRET_KEY,
   JWT_REFRESH_EXPIRE_TIME,
-} from '../../../common/config';
+} from './../../../common/config'//'@/common/config';
 
 const refresh = async ({ userId, tokenId }) => {
   const token = await tokenRepo.get(userId, tokenId);
@@ -19,13 +19,11 @@ const refresh = async ({ userId, tokenId }) => {
 };
 
 const getTokens = async (userId) => {
-  console.log('getTokens', userId);
   const token = jwt.sign({ id: userId }, JWT_SECRET_KEY, {
     expiresIn: JWT_EXPIRE_TIME,
   });
 
   const tokenId = uuidv4();
-  console.log('refreshToken');
   const refreshToken = jwt.sign(
     { id: userId, tokenId },
     JWT_REFRESH_SECRET_KEY,
@@ -33,13 +31,13 @@ const getTokens = async (userId) => {
       expiresIn: JWT_REFRESH_EXPIRE_TIME,
     }
   );
-  console.log('tokenRepo.upsert');
+
   await tokenRepo.upsert({
     userId,
     tokenId,
     expire: Date.now() + JWT_REFRESH_EXPIRE_TIME * 1000,
   });
-  console.log('return');
+
   return { token, refreshToken };
 };
 

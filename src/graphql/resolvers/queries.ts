@@ -1,5 +1,5 @@
 import { getCurrentDate } from '../../utils/getCurrentDate';
-// import ownersFromBackup from '../../../ownersBackUp.json';
+import ownersFromBackup from '../../../ownersBackUp.json';
 import mongoose from 'mongoose';
 import Owner from '../../models/owner';
 import User from '../../models/user';
@@ -11,7 +11,7 @@ export const queries = {
   ...tokenService,
 
   // upload owners from backup file
-  /*upOwnersByBackup() {
+  upOwnersByBackup() {
     const currentDate = getCurrentDate();
 
     for (let i = 0; i < ownersFromBackup.length; i++) {
@@ -53,7 +53,7 @@ export const queries = {
     }
 
     return 'loading owners from backup complete!';
-  },*/
+  },
   // USERS
   // get all users
   getAllUsers: () => {
@@ -143,6 +143,13 @@ export const queries = {
         })
     );
   },
+    // getAllOwnersByRange: () => {
+    //     const allPlayers = [];
+    //
+    //     const cursor = Owner.find({}).lean().cursor();
+    //     cursor.on('data', function(player) { allPlayers.push(player); });
+    //     cursor.on('end', function() { console.log('All players are loaded here'); });
+    // },
   // get owner by id
   getOwner: ({ id }) => {
     return Owner.findById(id)

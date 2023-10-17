@@ -30,7 +30,6 @@ benchmarks/graphs
 
 # env
 .env
-.env*
 
 # configs
 configs

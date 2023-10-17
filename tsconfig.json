@@ -8,9 +8,11 @@
     "resolveJsonModule": true,
     "sourceMap": false,
     "outDir": "dist",
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
-  "baseUrl": "src",
   "include": [
     "src/**/*.ts"
   ],

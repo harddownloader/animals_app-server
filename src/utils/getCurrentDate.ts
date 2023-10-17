@@ -8,5 +8,6 @@ export const getCurrentDate = (): string => {
     today.getDate();
   const time =
     today.getHours() + '-' + today.getMinutes() + '-' + today.getSeconds();
+
   return date + '-' + time;
 };

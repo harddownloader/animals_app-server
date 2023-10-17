@@ -1,35 +1,24 @@
 import { getCurrentDate } from '../../utils/getCurrentDate';
-
 import { pubsub } from './subscriptions'
 import mongoose from 'mongoose';
 import Owner from '../../models/owner';
 import User from '../../models/user';
 import { queries } from './queries';
 import bcrypt from 'bcryptjs';
-// import jwt from 'jsonwebtoken';
 import { tokenService } from './token/index';
 import { AUTHENTICATION_ERROR } from '../../errors/appErrors';
 
 export const mutations = {
   login: async (parent, { input }) => {
-    console.log('login', input);
-    // return { userId: 'efefefefe', token: 'token', tokenExpiration: 1 };
     const userEntity = await User.findOne({ email: input.email });
     if (!userEntity) {
       throw new Error('User does not exist!');
     }
     const isEqual = await bcrypt.compare(input.password, userEntity.password);
     if (!isEqual) {
-      // throw new Error('Password is incorrect!');
       throw new AUTHENTICATION_ERROR('Password is incorrect!');
     }
-    // const token = jwt.sign(
-    //   { userId: user.id, email: user.email },
-    //   process.env.JWT_SECRET_KEY,
-    //   {
-    //     expiresIn: '1h',
-    //   }
-    // );
+
     const tokens = await tokenService.getTokens(userEntity._id);
     return { ...tokens, userId: userEntity.id, tokenExpiration: 1 };
   },
@@ -59,7 +48,7 @@ export const mutations = {
         console.log('result = ', result);
         console.log(result._id);
 
-        // берем новый список владельцев
+        // send event that owners list has been updated
         const allOwners = await queries.getAllOwners();
         await pubsub.publish('OWNERS_UPDATED', {
           newOwnersList: allOwners,
@@ -74,16 +63,14 @@ export const mutations = {
   },
   // update owner fields
   updateOwner: (parent, { input }) => {
-    // return input
     const updateOps = {};
     const currentDate = getCurrentDate();
     for (const ops of Object.keys(input)) {
       updateOps[ops] = input[ops];
     }
+
     // set update date
     updateOps['dateUpdated'] = currentDate;
-    console.log('updateOps', updateOps);
-    // return false
     return Owner.updateOne(
       { _id: input.id },
       {
@@ -94,7 +81,7 @@ export const mutations = {
       .then(async (doc) => {
         console.log('From database', doc);
         if (doc) {
-          // берем новый список владельцев
+          // send event that owners list has been updated
           const allOwners = await queries.getAllOwners();
           await pubsub.publish('OWNERS_UPDATED', {
             newOwnersList: allOwners,

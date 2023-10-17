@@ -3,6 +3,7 @@ import morgan from 'morgan';
 const { combine, timestamp, prettyPrint, colorize, cli } = winston.format;
 import { LOGS_DIR } from './config';
 
+// @ts-ignore
 morgan.token('userId', (req) => JSON.stringify(req.userId));
 
 const format = combine(timestamp(), prettyPrint());
