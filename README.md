@@ -1,5 +1,5 @@
 # animals_app-server
-nvm use 16.13.1
+nvm use 18.16.0
 yarn install
 
 yarn build
